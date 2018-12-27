@@ -13,4 +13,65 @@ void fun(lli n){
     fun(n*10+ith number);
   }
 }
+
 ////
+//subtree count
+void dfs(int v,int p = -1) {
+	if (p == -1)depth[v] = 0;
+	sub[v] = 1;
+	for (auto u : g[v]) {
+		if (u == p)continue;
+		depth[u] = depth[v] + 1;
+		dfs(u, v);
+		sub[v] += sub[u];
+	}
+}
+//sieve
+void SieveOfEratosthenes(){
+    for (int i = 2; i * i < MAX; ++i){
+        if (!prime[i])
+            for (int j = i * i; j < MAX; j += i)
+                prime[j] = i;
+    }
+    for (int i = 1; i < MAX; ++i)
+        if (!prime[i])
+            prime[i] = i;
+}
+int largestGCDSubsequence(vector<int>arr, int n){
+    int ans = 0;
+    for (int i=0; i < n; ++i){
+        int element = arr[i];
+        while (element > 1){
+            int div = prime[element];
+            ++countdiv[div];
+            ans = max(ans, countdiv[div]);
+            while (element % div==0)
+                element /= div;
+        }
+    }
+    return ans;
+}
+//ncr
+for(int i = 0; i < N; ++i){
+        c[i][0] = 1;
+        for(int j = 1; j <= i; ++j){
+            c[i][j] = (c[i - 1][j] + c[i - 1][j - 1]) % mod;
+        }
+    }
+//binary_search_on_answer
+lli binary_search_on_answer(){
+      lli l = 0;
+    	lli r = n;
+    	lli ans = 1;
+    	while (l<=r) {
+    		lli g = (l+r)/2;
+    		if (check(g)) {
+    			ans = g;
+    			l = g+1;
+    		} else r  = g-1;
+    	}
+    	return ans;
+    }
+    //fast expo
+    template<typename T> T gcd(T a,T b) { if(a==0) return b; return gcd(b%a,a); }
+    template<typename T> T pow(T a,T b, ll m){T ans=1; while(b>0){ if(b%2==1) ans=(ans*a)%m; b/=2; a=(a*a)%m; } return ans%m; }
